@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="TerraViva Project Data Structure" id="Project-1d1a" database="MariaDb" >
+	<comment><![CDATA[This model rapresent the data structure of the TerraViva Project]]></comment>
+	<schema name="terraviva project data structure" >
+		<table name="chat" prior="chats" >
+			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
+				<defo><![CDATA[uuid()]]></defo>
+			</column>
+			<column name="name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="owner_uuid" prior="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<index name="pk_chat" unique="PRIMARY_KEY" >
+				<column name="uuid" />
+			</index>
+			<fk name="fk_chat_users" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="owner_uuid" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="comment_likes" prior="comments_like" >
+			<column name="comment_uuid" prior="comments_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<index name="pk_comment_likes" unique="PRIMARY_KEY" >
+				<column name="comment_uuid" />
+				<column name="user_uuid" />
+			</index>
+			<fk name="fk_comment_likes_comments" to_schema="terraviva project data structure" to_table="comments" >
+				<fk_column name="comment_uuid" pk="uuid" />
+			</fk>
+			<fk name="fk_comment_likes_users" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="user_uuid" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="comments" prior="comment" >
+			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
+				<defo><![CDATA[uuid()]]></defo>
+			</column>
+			<column name="post_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="parent" type="UUID" jt="1111" />
+			<column name="created_datetime" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="message" type="VARCHAR" length="500" jt="12" mandatory="y" />
+			<index name="pk_comments" unique="PRIMARY_KEY" >
+				<column name="uuid" />
+			</index>
+			<fk name="fk_comments_comments" to_schema="terraviva project data structure" to_table="comments" >
+				<fk_column name="parent" pk="uuid" />
+			</fk>
+			<fk name="fk_comments_posts" to_schema="terraviva project data structure" to_table="posts" >
+				<fk_column name="post_uuid" pk="uuid" />
+			</fk>
+			<fk name="fk_comments_users" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="user_uuid" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="media" prior="medias" >
+			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
+				<defo><![CDATA[uuid()]]></defo>
+			</column>
+			<column name="location" type="VARCHAR" length="500" jt="12" mandatory="y" />
+			<column name="media_md5" type="CHAR" length="32" jt="1" mandatory="y" />
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="created_datetime" type="DATETIME" jt="93" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<index name="pk_medias" unique="PRIMARY_KEY" >
+				<column name="uuid" />
+			</index>
+			<fk name="fk_medias_users" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="user_uuid" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="messages" prior="tbl_0" >
+			<column name="user_uuid" prior="users_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="chat_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="sended_datetime" prior="send_datetime" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="message" type="VARCHAR" length="1000" jt="12" mandatory="y" />
+			<column name="uuid" type="UUID" jt="1111" mandatory="y" />
+			<index name="pk_messages" unique="PRIMARY_KEY" >
+				<column name="uuid" />
+			</index>
+			<fk name="fk_messages_users" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="user_uuid" pk="uuid" />
+			</fk>
+			<fk name="fk_messages_chat" to_schema="terraviva project data structure" to_table="chat" >
+				<fk_column name="chat_uuid" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="post_likes" prior="comments_like_0" >
+			<column name="post_uuid" prior="comments_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<index name="pk_post_likes" unique="PRIMARY_KEY" >
+				<column name="post_uuid" />
+				<column name="user_uuid" />
+			</index>
+			<fk name="fk_post_likes_posts" to_schema="terraviva project data structure" to_table="posts" >
+				<fk_column name="post_uuid" pk="uuid" />
+			</fk>
+			<fk name="fk_post_likes_users" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="user_uuid" pk="uuid" />
+			</fk>
+		</table>
+		<table name="post_media" prior="post_medias" >
+			<column name="post_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="media_uuid" type="UUID" jt="1111" mandatory="y" />
+			<index name="pk_post_media" unique="PRIMARY_KEY" >
+				<column name="post_uuid" />
+				<column name="media_uuid" />
+			</index>
+			<fk name="fk_post_media_posts" to_schema="terraviva project data structure" to_table="posts" >
+				<fk_column name="post_uuid" pk="uuid" />
+			</fk>
+			<fk name="fk_post_media_media" to_schema="terraviva project data structure" to_table="media" >
+				<fk_column name="media_uuid" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="posts" prior="post" >
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
+				<defo><![CDATA[uuid()]]></defo>
+			</column>
+			<column name="message" type="VARCHAR" length="1000" jt="12" mandatory="y" />
+			<column name="created_datetime" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<index name="pk_posts" unique="PRIMARY_KEY" >
+				<column name="uuid" />
+			</index>
+			<fk name="fk_users_posts" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="user_uuid" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="rt__posts_tags" prior="rt__" >
+			<column name="posts_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="tag_uuid" type="UUID" length="30" jt="1111" mandatory="y" />
+			<index name="pk_rt__posts_tags" unique="PRIMARY_KEY" >
+				<column name="posts_uuid" />
+				<column name="tag_uuid" />
+			</index>
+			<fk name="fk_rt__posts_tags_tags" to_schema="terraviva project data structure" to_table="tags" >
+				<fk_column name="tag_uuid" pk="uuid" />
+			</fk>
+			<fk name="fk_rt__posts_tags_posts" to_schema="terraviva project data structure" to_table="posts" >
+				<fk_column name="posts_uuid" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="rt__user_varieties" prior="rt__user" >
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="variety_id" prior="variety_is" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<index name="pk_rt__user_varieties" unique="PRIMARY_KEY" >
+				<column name="user_uuid" />
+				<column name="variety_id" />
+			</index>
+			<fk name="fk_rt__user_varieties_users" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="user_uuid" pk="uuid" />
+			</fk>
+			<fk name="fk_rt__user_varieties" to_schema="terraviva project data structure" to_table="varieties" >
+				<fk_column name="variety_id" pk="id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="rt__users_chat" prior="rt__users_c" >
+			<column name="user_uuid" prior="uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="chat_uuid" type="UUID" jt="1111" mandatory="y" />
+			<index name="pk_rt__users_chat" unique="PRIMARY_KEY" >
+				<column name="user_uuid" />
+				<column name="chat_uuid" />
+			</index>
+			<fk name="fk_rt__users_chat_users" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="user_uuid" pk="uuid" />
+			</fk>
+			<fk name="fk_rt__users_chat_chat" to_schema="terraviva project data structure" to_table="chat" >
+				<fk_column name="chat_uuid" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="species" prior="tbl" >
+			<column name="id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="scientific_name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<index name="pk_species" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="species_alias" prior="species_alis" >
+			<column name="id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="species_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<index name="pk_species_alias" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_species_alias_species" to_schema="terraviva project data structure" to_table="species" >
+				<fk_column name="species_id" pk="id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="spiecies_followers" prior="piecies_followers" >
+			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
+				<defo><![CDATA[uuid()]]></defo>
+			</column>
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="species_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<index name="pk_spiecies_followers" unique="PRIMARY_KEY" >
+				<column name="uuid" />
+			</index>
+			<fk name="fk_spiecies_followers_users" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="user_uuid" pk="uuid" />
+			</fk>
+			<fk name="fk_spiecies_followers_species" to_schema="terraviva project data structure" to_table="species" >
+				<fk_column name="species_id" pk="id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="tag_followers" prior="tbl_0" >
+			<column name="tag_uuid" type="UUID" length="30" jt="1111" mandatory="y" />
+			<column name="user_uuid" prior="user_uuis" type="UUID" jt="1111" mandatory="y" />
+			<index name="pk_tag_followers" unique="PRIMARY_KEY" >
+				<column name="tag_uuid" />
+				<column name="user_uuid" />
+			</index>
+			<fk name="fk_tag_followers_tags" to_schema="terraviva project data structure" to_table="tags" >
+				<fk_column name="tag_uuid" pk="uuid" />
+			</fk>
+			<fk name="fk_tag_followers_users" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="user_uuid" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="tags" prior="tbl_0" >
+			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
+				<defo><![CDATA[uuid()]]></defo>
+			</column>
+			<column name="tag" type="VARCHAR" length="30" jt="12" mandatory="y" />
+			<index name="pk_tags" unique="PRIMARY_KEY" >
+				<column name="uuid" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="tbl" />
+		<table name="user_followers" prior="rt" >
+			<column name="follower_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="followed_uuid" type="UUID" jt="1111" mandatory="y" />
+			<index name="pk_user_followers" unique="PRIMARY_KEY" >
+				<column name="follower_uuid" />
+				<column name="followed_uuid" />
+			</index>
+			<fk name="fk_user_follower" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="follower_uuid" pk="uuid" />
+			</fk>
+			<fk name="fk_user_followed" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="followed_uuid" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="users" >
+			<comment><![CDATA[contains the information of the user of the system]]></comment>
+			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
+				<defo><![CDATA[uuid()]]></defo>
+			</column>
+			<column name="username" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="birth_date" type="DATE" jt="91" />
+			<column name="subscribe_datetime" prior="subscribe_date" type="DATETIME" jt="93" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="email" type="VARCHAR" length="255" jt="12" mandatory="y" />
+			<column name="name" type="VARCHAR" length="100" jt="12" />
+			<column name="surname" type="VARCHAR" length="100" jt="12" />
+			<column name="verified" type="BOOLEAN" jt="-7" mandatory="y" >
+				<defo><![CDATA[false]]></defo>
+			</column>
+			<column name="bio" type="VARCHAR" length="1000" jt="12" />
+			<column name="profile_image" type="UUID" jt="1111" />
+			<index name="pk_users" unique="PRIMARY_KEY" >
+				<column name="uuid" />
+			</index>
+			<fk name="fk_users_media" to_schema="terraviva project data structure" to_table="media" >
+				<fk_column name="profile_image" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="varieties" prior="tbl" >
+			<column name="id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="name" type="VARCHAR" length="150" jt="12" mandatory="y" />
+			<column name="species_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="variety_image" type="UUID" jt="1111" />
+			<index name="pk_varieties" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_varieties_species" to_schema="terraviva project data structure" to_table="species" >
+				<fk_column name="species_id" pk="id" />
+			</fk>
+			<fk name="fk_varieties_media" to_schema="terraviva project data structure" to_table="media" >
+				<fk_column name="variety_image" pk="uuid" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="variety_followers" prior="variety_follows" >
+			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
+				<defo><![CDATA[uuid()]]></defo>
+			</column>
+			<column name="variety_id" prior="variety_uuid" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<index name="pk_varieties_follow" unique="PRIMARY_KEY" >
+				<column name="uuid" />
+			</index>
+			<fk name="fk_variety_followers_users" to_schema="terraviva project data structure" to_table="users" >
+				<fk_column name="user_uuid" pk="uuid" />
+			</fk>
+			<fk name="fk_variety_followers_varieties" to_schema="terraviva project data structure" to_table="varieties" >
+				<fk_column name="variety_id" pk="id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout-2280" show_relation="columns" >
+		<entity schema="terraviva project data structure" name="chat" color="C1D8EE" x="784" y="112" />
+		<entity schema="terraviva project data structure" name="comment_likes" color="C1D8EE" x="384" y="384" />
+		<entity schema="terraviva project data structure" name="comments" color="C1D8EE" x="48" y="368" />
+		<entity schema="terraviva project data structure" name="media" color="C1D8EE" x="752" y="1040" />
+		<entity schema="terraviva project data structure" name="messages" color="C1D8EE" x="512" y="96" />
+		<entity schema="terraviva project data structure" name="post_likes" color="3986C1" x="464" y="800" />
+		<entity schema="terraviva project data structure" name="post_media" color="C1D8EE" x="544" y="1088" />
+		<entity schema="terraviva project data structure" name="posts" color="C1D8EE" x="64" y="944" />
+		<entity schema="terraviva project data structure" name="rt__posts_tags" color="C1D8EE" x="160" y="768" />
+		<entity schema="terraviva project data structure" name="rt__user_varieties" color="C1D8EE" x="1040" y="496" />
+		<entity schema="terraviva project data structure" name="rt__users_chat" color="C1D8EE" x="960" y="80" />
+		<entity schema="terraviva project data structure" name="species" color="C1D8EE" x="1376" y="608" />
+		<entity schema="terraviva project data structure" name="species_alias" color="C1D8EE" x="1408" y="416" />
+		<entity schema="terraviva project data structure" name="spiecies_followers" color="C1D8EE" x="1232" y="384" />
+		<entity schema="terraviva project data structure" name="tag_followers" color="C1D8EE" x="448" y="560" />
+		<entity schema="terraviva project data structure" name="tags" color="C1D8EE" x="272" y="608" />
+		<entity schema="terraviva project data structure" name="user_followers" color="C1D8EE" x="432" y="688" />
+		<entity schema="terraviva project data structure" name="users" color="C1D8EE" x="752" y="528" />
+		<entity schema="terraviva project data structure" name="varieties" color="C1D8EE" x="1264" y="736" />
+		<entity schema="terraviva project data structure" name="variety_followers" color="C1D8EE" x="1040" y="672" />
+		<group name="Group_Social" color="C4E0F9" >
+			<entity schema="terraviva project data structure" name="media" />
+			<entity schema="terraviva project data structure" name="post_media" />
+			<entity schema="terraviva project data structure" name="comment_likes" />
+			<entity schema="terraviva project data structure" name="posts" />
+			<entity schema="terraviva project data structure" name="rt__posts_tags" />
+			<entity schema="terraviva project data structure" name="tags" />
+			<entity schema="terraviva project data structure" name="comments" />
+			<entity schema="terraviva project data structure" name="post_likes" />
+			<entity schema="terraviva project data structure" name="tag_followers" />
+			<entity schema="terraviva project data structure" name="user_followers" />
+		</group>
+		<group name="Group_seed" color="C4E0F9" >
+			<entity schema="terraviva project data structure" name="rt__user_varieties" />
+			<entity schema="terraviva project data structure" name="variety_followers" />
+			<entity schema="terraviva project data structure" name="species_alias" />
+			<entity schema="terraviva project data structure" name="spiecies_followers" />
+			<entity schema="terraviva project data structure" name="varieties" />
+			<entity schema="terraviva project data structure" name="species" />
+		</group>
+		<group name="Group_chat" color="C4E0F9" >
+			<entity schema="terraviva project data structure" name="messages" />
+			<entity schema="terraviva project data structure" name="chat" />
+			<entity schema="terraviva project data structure" name="rt__users_chat" />
+		</group>
+	</layout>
+</project>
