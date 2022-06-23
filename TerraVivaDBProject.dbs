@@ -3,11 +3,17 @@
 	<comment><![CDATA[This model rapresent the data structure of the TerraViva Project]]></comment>
 	<schema name="terraviva project data structure" >
 		<table name="chat" prior="chats" >
+			<comment><![CDATA[This table contains informations about the chat]]></comment>
 			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
 				<defo><![CDATA[uuid()]]></defo>
+				<comment><![CDATA[This field contains the uuid of the chat]]></comment>
 			</column>
-			<column name="name" type="VARCHAR" length="100" jt="12" mandatory="y" />
-			<column name="owner_uuid" prior="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="name" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<comment><![CDATA[This field contains the name of the chat]]></comment>
+			</column>
+			<column name="owner_uuid" prior="user_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the owner of the chat]]></comment>
+			</column>
 			<index name="pk_chat" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
@@ -17,8 +23,13 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="comment_likes" prior="comments_like" >
-			<column name="comment_uuid" prior="comments_uuid" type="UUID" jt="1111" mandatory="y" />
-			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<comment><![CDATA[This table contains informations about the comment likes]]></comment>
+			<column name="comment_uuid" prior="comments_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference of the liked comment]]></comment>
+			</column>
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the user that likes the comment]]></comment>
+			</column>
 			<index name="pk_comment_likes" unique="PRIMARY_KEY" >
 				<column name="comment_uuid" />
 				<column name="user_uuid" />
@@ -32,16 +43,25 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="comments" prior="comment" >
+			<comment><![CDATA[This table contains informations about the comments]]></comment>
 			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
 				<defo><![CDATA[uuid()]]></defo>
+				<comment><![CDATA[This field contains the uuid of the comment]]></comment>
 			</column>
-			<column name="post_uuid" type="UUID" jt="1111" mandatory="y" />
-			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="post_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference of the commented post]]></comment>
+			</column>
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the user that made the comment]]></comment>
+			</column>
 			<column name="parent" type="UUID" jt="1111" />
 			<column name="created_datetime" type="DATETIME" jt="93" mandatory="y" >
 				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[This field contains the date and the time about the comment]]></comment>
 			</column>
-			<column name="message" type="VARCHAR" length="500" jt="12" mandatory="y" />
+			<column name="message" type="VARCHAR" length="500" jt="12" mandatory="y" >
+				<comment><![CDATA[This field contains the message of the comment]]></comment>
+			</column>
 			<index name="pk_comments" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
@@ -57,14 +77,23 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="media" prior="medias" >
+			<comment><![CDATA[This table contains informations about media]]></comment>
 			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
 				<defo><![CDATA[uuid()]]></defo>
+				<comment><![CDATA[This field contains the uuid of the media]]></comment>
 			</column>
-			<column name="location" type="VARCHAR" length="500" jt="12" mandatory="y" />
-			<column name="media_md5" type="CHAR" length="32" jt="1" mandatory="y" />
-			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="location" type="VARCHAR" length="500" jt="12" mandatory="y" >
+				<comment><![CDATA[This field contains the location of the media]]></comment>
+			</column>
+			<column name="media_md5" type="CHAR" length="32" jt="1" mandatory="y" >
+				<comment><![CDATA[This field contains the content of the media]]></comment>
+			</column>
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the user that load the media]]></comment>
+			</column>
 			<column name="created_datetime" type="DATETIME" jt="93" >
 				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[This field contains the date and the time about the media]]></comment>
 			</column>
 			<index name="pk_medias" unique="PRIMARY_KEY" >
 				<column name="uuid" />
@@ -104,8 +133,13 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="post_likes" prior="comments_like_0" >
-			<column name="post_uuid" prior="comments_uuid" type="UUID" jt="1111" mandatory="y" />
-			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<comment><![CDATA[This table contains informations about the posts likes]]></comment>
+			<column name="post_uuid" prior="comments_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the liked post]]></comment>
+			</column>
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the user who likes the post]]></comment>
+			</column>
 			<index name="pk_post_likes" unique="PRIMARY_KEY" >
 				<column name="post_uuid" />
 				<column name="user_uuid" />
@@ -118,8 +152,13 @@
 			</fk>
 		</table>
 		<table name="post_media" prior="post_medias" >
-			<column name="post_uuid" type="UUID" jt="1111" mandatory="y" />
-			<column name="media_uuid" type="UUID" jt="1111" mandatory="y" />
+			<comment><![CDATA[This table contains informations about the posts media]]></comment>
+			<column name="post_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the post that include a media]]></comment>
+			</column>
+			<column name="media_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This table contains the reference about the media of the post]]></comment>
+			</column>
 			<index name="pk_post_media" unique="PRIMARY_KEY" >
 				<column name="post_uuid" />
 				<column name="media_uuid" />
@@ -133,13 +172,20 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="posts" prior="post" >
-			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<comment><![CDATA[This table contains informations about the posts]]></comment>
+			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the user who made the post]]></comment>
+			</column>
 			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
 				<defo><![CDATA[uuid()]]></defo>
+				<comment><![CDATA[This field contains the uuid of the post]]></comment>
 			</column>
-			<column name="message" type="VARCHAR" length="1000" jt="12" mandatory="y" />
+			<column name="message" type="VARCHAR" length="1000" jt="12" mandatory="y" >
+				<comment><![CDATA[This field contains the message of the post]]></comment>
+			</column>
 			<column name="created_datetime" type="DATETIME" jt="93" mandatory="y" >
 				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[This field contains the date and the time about the post]]></comment>
 			</column>
 			<index name="pk_posts" unique="PRIMARY_KEY" >
 				<column name="uuid" />
@@ -150,8 +196,13 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="rt__posts_tags" prior="rt__" >
-			<column name="posts_uuid" type="UUID" jt="1111" mandatory="y" />
-			<column name="tag_uuid" type="UUID" length="30" jt="1111" mandatory="y" />
+			<comment><![CDATA[This table contains the informations about the rt posts tags]]></comment>
+			<column name="posts_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the post where there's the tag]]></comment>
+			</column>
+			<column name="tag_uuid" type="UUID" length="30" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the used tag]]></comment>
+			</column>
 			<index name="pk_rt__posts_tags" unique="PRIMARY_KEY" >
 				<column name="posts_uuid" />
 				<column name="tag_uuid" />
@@ -185,8 +236,13 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="rt__users_chat" prior="rt__users_c" >
-			<column name="user_uuid" prior="uuid" type="UUID" jt="1111" mandatory="y" />
-			<column name="chat_uuid" type="UUID" jt="1111" mandatory="y" />
+			<comment><![CDATA[This table contains the informations about the rt users chat]]></comment>
+			<column name="user_uuid" prior="uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the chatting user]]></comment>
+			</column>
+			<column name="chat_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the chat]]></comment>
+			</column>
 			<index name="pk_rt__users_chat" unique="PRIMARY_KEY" >
 				<column name="user_uuid" />
 				<column name="chat_uuid" />
@@ -254,8 +310,13 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="tag_followers" prior="tbl_0" >
-			<column name="tag_uuid" type="UUID" length="30" jt="1111" mandatory="y" />
-			<column name="user_uuid" prior="user_uuis" type="UUID" jt="1111" mandatory="y" />
+			<comment><![CDATA[This table contains informations about tha tag followers]]></comment>
+			<column name="tag_uuid" type="UUID" length="30" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the tag]]></comment>
+			</column>
+			<column name="user_uuid" prior="user_uuis" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the tag follower]]></comment>
+			</column>
 			<index name="pk_tag_followers" unique="PRIMARY_KEY" >
 				<column name="tag_uuid" />
 				<column name="user_uuid" />
@@ -269,10 +330,14 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="tags" prior="tbl_0" >
+			<comment><![CDATA[This table contains informations about the tags]]></comment>
 			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
 				<defo><![CDATA[uuid()]]></defo>
+				<comment><![CDATA[This field contains the uuid of the tag]]></comment>
 			</column>
-			<column name="tag" type="VARCHAR" length="30" jt="12" mandatory="y" />
+			<column name="tag" type="VARCHAR" length="30" jt="12" mandatory="y" >
+				<comment><![CDATA[This field contains the content of the tag]]></comment>
+			</column>
 			<index name="pk_tags" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
@@ -280,8 +345,13 @@
 		</table>
 		<table name="tbl" />
 		<table name="user_followers" prior="rt" >
-			<column name="follower_uuid" type="UUID" jt="1111" mandatory="y" />
-			<column name="followed_uuid" type="UUID" jt="1111" mandatory="y" />
+			<comment><![CDATA[This table contains informations about the user followers]]></comment>
+			<column name="follower_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the follower]]></comment>
+			</column>
+			<column name="followed_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the followed user]]></comment>
+			</column>
 			<index name="pk_user_followers" unique="PRIMARY_KEY" >
 				<column name="follower_uuid" />
 				<column name="followed_uuid" />
@@ -387,7 +457,7 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 	</schema>
-	<connector name="SqlServer" database="SqlServer" driver_class="com.microsoft.sqlserver.jdbc.SQLServerDriver" driver_jar="mssql-jdbc-10.2.1.jre11.jar" url="/usr/local/mysql" host="localhost" port="1433" user="root" passwd="Q2lub2Npbm85OQ==" />
+	<connector name="SqlServer" database="SqlServer" driver_class="com.microsoft.sqlserver.jdbc.SQLServerDriver" driver_jar="mssql-jdbc-10.2.1.jre11.jar" driver_desc="SQL Server Authentication" url="/usr/local/mysql" host="localhost" port="1433" user="root" passwd="Q2lub2Npbm85OQ==" />
 	<layout name="Default Layout" id="Layout-2280" show_relation="columns" >
 		<entity schema="terraviva project data structure" name="chat" color="C1D8EE" x="768" y="112" />
 		<entity schema="terraviva project data structure" name="comment_likes" color="C1D8EE" x="384" y="384" />
@@ -410,16 +480,16 @@
 		<entity schema="terraviva project data structure" name="varieties" color="C1D8EE" x="1248" y="736" />
 		<entity schema="terraviva project data structure" name="variety_followers" color="C1D8EE" x="1024" y="672" />
 		<group name="Group_Social" color="C4E0F9" >
-			<entity schema="terraviva project data structure" name="media" />
-			<entity schema="terraviva project data structure" name="post_media" />
-			<entity schema="terraviva project data structure" name="comment_likes" />
-			<entity schema="terraviva project data structure" name="posts" />
-			<entity schema="terraviva project data structure" name="rt__posts_tags" />
-			<entity schema="terraviva project data structure" name="tags" />
 			<entity schema="terraviva project data structure" name="comments" />
-			<entity schema="terraviva project data structure" name="post_likes" />
 			<entity schema="terraviva project data structure" name="tag_followers" />
+			<entity schema="terraviva project data structure" name="tags" />
 			<entity schema="terraviva project data structure" name="user_followers" />
+			<entity schema="terraviva project data structure" name="rt__posts_tags" />
+			<entity schema="terraviva project data structure" name="post_likes" />
+			<entity schema="terraviva project data structure" name="posts" />
+			<entity schema="terraviva project data structure" name="comment_likes" />
+			<entity schema="terraviva project data structure" name="post_media" />
+			<entity schema="terraviva project data structure" name="media" />
 		</group>
 		<group name="Group_seed" color="C4E0F9" >
 			<entity schema="terraviva project data structure" name="variety_followers" />
@@ -430,9 +500,9 @@
 			<entity schema="terraviva project data structure" name="rt__user_varieties" />
 		</group>
 		<group name="Group_chat" color="C4E0F9" >
-			<entity schema="terraviva project data structure" name="chat" />
-			<entity schema="terraviva project data structure" name="rt__users_chat" />
 			<entity schema="terraviva project data structure" name="messages" />
+			<entity schema="terraviva project data structure" name="rt__users_chat" />
+			<entity schema="terraviva project data structure" name="chat" />
 		</group>
 		<script name="SQL_Editor" id="Editor-1ff3" language="SQL" >
 			<string><![CDATA[CREATE SCHEMA `terraviva project data structure`;
@@ -929,8 +999,7 @@ ALTER TABLE `terraviva project data structure`.variety_followers MODIFY uuid UUI
 
 ALTER TABLE `terraviva project data structure`.variety_followers MODIFY variety_id BIGINT UNSIGNED NOT NULL   COMMENT 'This field contains the id of the variety';
 
-ALTER TABLE `terraviva project data structure`.variety_followers MODIFY user_uuid UUID  NOT NULL   COMMENT 'This field contains the uuid of the user';
-]]></string>
+ALTER TABLE `terraviva project data structure`.variety_followers MODIFY user_uuid UUID  NOT NULL   COMMENT 'This field contains the uuid of the user';]]></string>
 		</script>
 		<script name="SQL_Editor_002" id="Editor-26ef" language="SQL" >
 			<string><![CDATA[CREATE SCHEMA `terraviva project data structure`;
@@ -1211,8 +1280,7 @@ ALTER TABLE `terraviva project data structure`.variety_followers MODIFY uuid UUI
 
 ALTER TABLE `terraviva project data structure`.variety_followers MODIFY variety_id BIGINT UNSIGNED NOT NULL   COMMENT 'This field contains the id of the variety';
 
-ALTER TABLE `terraviva project data structure`.variety_followers MODIFY user_uuid UUID  NOT NULL   COMMENT 'This field contains the uuid of the user';
-]]></string>
+ALTER TABLE `terraviva project data structure`.variety_followers MODIFY user_uuid UUID  NOT NULL   COMMENT 'This field contains the uuid of the user';]]></string>
 		</script>
 	</layout>
 </project>
