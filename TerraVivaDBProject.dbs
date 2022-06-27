@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project name="TerraViva Project Data Structure" id="Project-1d1a" database="MariaDb" >
+<project name="terra-viva_db" id="Project-1d1a" database="MariaDb" >
 	<comment><![CDATA[This model rapresent the data structure of the TerraViva Project]]></comment>
-	<schema name="terraviva project data structure" >
+	<schema name="terra_viva" >
 		<table name="chat" prior="chats" >
 			<comment><![CDATA[This table contains informations about the chat]]></comment>
 			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
@@ -17,7 +17,7 @@
 			<index name="pk_chat" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
-			<fk name="fk_chat_users" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_chat_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="owner_uuid" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -38,10 +38,10 @@
 				<column name="comment_uuid" />
 				<column name="user_uuid" />
 			</index>
-			<fk name="fk_comment_likes_comments" to_schema="terraviva project data structure" to_table="comments" >
+			<fk name="fk_comment_likes_comments" to_schema="terra_viva" to_table="comments" >
 				<fk_column name="comment_uuid" pk="uuid" />
 			</fk>
-			<fk name="fk_comment_likes_users" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_comment_likes_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -69,13 +69,13 @@
 			<index name="pk_comments" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
-			<fk name="fk_comments_comments" to_schema="terraviva project data structure" to_table="comments" >
+			<fk name="fk_comments_comments" to_schema="terra_viva" to_table="comments" >
 				<fk_column name="parent" pk="uuid" />
 			</fk>
-			<fk name="fk_comments_posts" to_schema="terraviva project data structure" to_table="posts" >
+			<fk name="fk_comments_posts" to_schema="terra_viva" to_table="posts" >
 				<fk_column name="post_uuid" pk="uuid" />
 			</fk>
-			<fk name="fk_comments_users" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_comments_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -102,7 +102,7 @@
 			<index name="pk_medias" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
-			<fk name="fk_medias_users" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_medias_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -128,10 +128,10 @@
 			<index name="pk_messages" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
-			<fk name="fk_messages_users" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_messages_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
 			</fk>
-			<fk name="fk_messages_chat" to_schema="terraviva project data structure" to_table="chat" >
+			<fk name="fk_messages_chat" to_schema="terra_viva" to_table="chat" >
 				<fk_column name="chat_uuid" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -152,10 +152,10 @@
 				<column name="post_uuid" />
 				<column name="user_uuid" />
 			</index>
-			<fk name="fk_post_likes_posts" to_schema="terraviva project data structure" to_table="posts" >
+			<fk name="fk_post_likes_posts" to_schema="terra_viva" to_table="posts" >
 				<fk_column name="post_uuid" pk="uuid" />
 			</fk>
-			<fk name="fk_post_likes_users" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_post_likes_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
 			</fk>
 		</table>
@@ -171,10 +171,10 @@
 				<column name="post_uuid" />
 				<column name="media_uuid" />
 			</index>
-			<fk name="fk_post_media_posts" to_schema="terraviva project data structure" to_table="posts" >
+			<fk name="fk_post_media_posts" to_schema="terra_viva" to_table="posts" >
 				<fk_column name="post_uuid" pk="uuid" />
 			</fk>
-			<fk name="fk_post_media_media" to_schema="terraviva project data structure" to_table="media" >
+			<fk name="fk_post_media_media" to_schema="terra_viva" to_table="media" >
 				<fk_column name="media_uuid" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -198,7 +198,7 @@
 			<index name="pk_posts" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
-			<fk name="fk_users_posts" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_users_posts" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -215,10 +215,10 @@
 				<column name="posts_uuid" />
 				<column name="tag_uuid" />
 			</index>
-			<fk name="fk_rt__posts_tags_tags" to_schema="terraviva project data structure" to_table="tags" >
+			<fk name="fk_rt__posts_tags_tags" to_schema="terra_viva" to_table="tags" >
 				<fk_column name="tag_uuid" pk="uuid" />
 			</fk>
-			<fk name="fk_rt__posts_tags_posts" to_schema="terraviva project data structure" to_table="posts" >
+			<fk name="fk_rt__posts_tags_posts" to_schema="terra_viva" to_table="posts" >
 				<fk_column name="posts_uuid" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -239,10 +239,10 @@
 				<column name="user_uuid" />
 				<column name="variety_id" />
 			</index>
-			<fk name="fk_rt__user_varieties_users" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_rt__user_varieties_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
 			</fk>
-			<fk name="fk_rt__user_varieties" to_schema="terraviva project data structure" to_table="varieties" >
+			<fk name="fk_rt__user_varieties" to_schema="terra_viva" to_table="varieties" >
 				<fk_column name="variety_id" pk="id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -259,10 +259,10 @@
 				<column name="user_uuid" />
 				<column name="chat_uuid" />
 			</index>
-			<fk name="fk_rt__users_chat_users" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_rt__users_chat_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
 			</fk>
-			<fk name="fk_rt__users_chat_chat" to_schema="terraviva project data structure" to_table="chat" >
+			<fk name="fk_rt__users_chat_chat" to_schema="terra_viva" to_table="chat" >
 				<fk_column name="chat_uuid" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -287,13 +287,13 @@
 				<identity><![CDATA[AUTO_INCREMENT]]></identity>
 				<comment><![CDATA[This field contains the id of the species alias]]></comment>
 			</column>
-			<column name="species_id" type="INT" jt="4" mandatory="y" unsigned="y" >
+			<column name="species_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
 				<comment><![CDATA[This field contains the id of the species]]></comment>
 			</column>
 			<index name="pk_species_alias" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
-			<fk name="fk_species_alias_species" to_schema="terraviva project data structure" to_table="species" >
+			<fk name="fk_species_alias_species" to_schema="terra_viva" to_table="species" >
 				<fk_column name="species_id" pk="id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -317,10 +317,10 @@
 			<index name="pk_spiecies_followers" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
-			<fk name="fk_spiecies_followers_users" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_spiecies_followers_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
 			</fk>
-			<fk name="fk_spiecies_followers_species" to_schema="terraviva project data structure" to_table="species" >
+			<fk name="fk_spiecies_followers_species" to_schema="terra_viva" to_table="species" >
 				<fk_column name="species_id" pk="id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -337,10 +337,10 @@
 				<column name="tag_uuid" />
 				<column name="user_uuid" />
 			</index>
-			<fk name="fk_tag_followers_tags" to_schema="terraviva project data structure" to_table="tags" >
+			<fk name="fk_tag_followers_tags" to_schema="terra_viva" to_table="tags" >
 				<fk_column name="tag_uuid" pk="uuid" />
 			</fk>
-			<fk name="fk_tag_followers_users" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_tag_followers_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -359,7 +359,6 @@
 			</index>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
-		<table name="tbl" />
 		<table name="user_followers" prior="rt" >
 			<comment><![CDATA[This table contains informations about the user followers]]></comment>
 			<column name="follower_uuid" type="UUID" jt="1111" mandatory="y" >
@@ -376,10 +375,10 @@
 				<column name="follower_uuid" />
 				<column name="followed_uuid" />
 			</index>
-			<fk name="fk_user_follower" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_user_follower" to_schema="terra_viva" to_table="users" >
 				<fk_column name="follower_uuid" pk="uuid" />
 			</fk>
-			<fk name="fk_user_followed" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_user_followed" to_schema="terra_viva" to_table="users" >
 				<fk_column name="followed_uuid" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -422,7 +421,7 @@
 			<index name="pk_users" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
-			<fk name="fk_users_media" to_schema="terraviva project data structure" to_table="media" >
+			<fk name="fk_users_media" to_schema="terra_viva" to_table="media" >
 				<fk_column name="profile_image" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -449,10 +448,10 @@
 			<index name="pk_varieties" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
-			<fk name="fk_varieties_species" to_schema="terraviva project data structure" to_table="species" >
+			<fk name="fk_varieties_species" to_schema="terra_viva" to_table="species" >
 				<fk_column name="species_id" pk="id" />
 			</fk>
-			<fk name="fk_varieties_media" to_schema="terraviva project data structure" to_table="media" >
+			<fk name="fk_varieties_media" to_schema="terra_viva" to_table="media" >
 				<fk_column name="variety_image" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
@@ -476,61 +475,62 @@
 			<index name="pk_varieties_follow" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
-			<fk name="fk_variety_followers_users" to_schema="terraviva project data structure" to_table="users" >
+			<fk name="fk_variety_followers_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
 			</fk>
-			<fk name="fk_variety_followers_varieties" to_schema="terraviva project data structure" to_table="varieties" >
+			<fk name="fk_variety_followers_varieties" to_schema="terra_viva" to_table="varieties" >
 				<fk_column name="variety_id" pk="id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 	</schema>
-	<connector name="SqlServer" database="SqlServer" driver_class="com.microsoft.sqlserver.jdbc.SQLServerDriver" driver_jar="mssql-jdbc-10.2.1.jre11.jar" driver_desc="SQL Server Authentication" url="/usr/local/mysql" host="localhost" port="1433" user="root" passwd="Q2lub2Npbm85OQ==" />
+	<connector name="MariaDb" database="MariaDb" driver_class="org.mariadb.jdbc.Driver" driver_jar="mariadb-java-client-3.0.5.jar" driver_desc="Standard" host="129.152.1.101" port="3306" instance="terra_viva" user="terra_viva_admin" schema_mapping="terraviva project data structure:terra_viva" />
 	<layout name="Default Layout" id="Layout-2280" show_relation="columns" >
-		<entity schema="terraviva project data structure" name="chat" color="C1D8EE" x="704" y="112" />
-		<entity schema="terraviva project data structure" name="comment_likes" color="C1D8EE" x="384" y="352" />
-		<entity schema="terraviva project data structure" name="comments" color="C1D8EE" x="48" y="336" />
-		<entity schema="terraviva project data structure" name="media" color="C1D8EE" x="752" y="1008" />
-		<entity schema="terraviva project data structure" name="messages" color="C1D8EE" x="432" y="96" />
-		<entity schema="terraviva project data structure" name="post_likes" color="3986C1" x="464" y="768" />
-		<entity schema="terraviva project data structure" name="post_media" color="C1D8EE" x="544" y="1056" />
-		<entity schema="terraviva project data structure" name="posts" color="C1D8EE" x="64" y="912" />
-		<entity schema="terraviva project data structure" name="rt__posts_tags" color="C1D8EE" x="160" y="736" />
-		<entity schema="terraviva project data structure" name="rt__user_varieties" color="C1D8EE" x="1024" y="496" />
-		<entity schema="terraviva project data structure" name="rt__users_chat" color="C1D8EE" x="880" y="80" />
-		<entity schema="terraviva project data structure" name="species" color="C1D8EE" x="1360" y="608" />
-		<entity schema="terraviva project data structure" name="species_alias" color="C1D8EE" x="1392" y="416" />
-		<entity schema="terraviva project data structure" name="spiecies_followers" color="C1D8EE" x="1168" y="384" />
-		<entity schema="terraviva project data structure" name="tag_followers" color="C1D8EE" x="448" y="528" />
-		<entity schema="terraviva project data structure" name="tags" color="C1D8EE" x="272" y="576" />
-		<entity schema="terraviva project data structure" name="user_followers" color="C1D8EE" x="432" y="656" />
-		<entity schema="terraviva project data structure" name="users" color="C1D8EE" x="672" y="528" />
-		<entity schema="terraviva project data structure" name="varieties" color="C1D8EE" x="1248" y="736" />
-		<entity schema="terraviva project data structure" name="variety_followers" color="C1D8EE" x="1024" y="672" />
+		<comment><![CDATA[terra-viva_db]]></comment>
+		<entity schema="terra_viva" name="chat" color="C1D8EE" x="752" y="112" />
+		<entity schema="terra_viva" name="comment_likes" color="C1D8EE" x="384" y="448" />
+		<entity schema="terra_viva" name="comments" color="C1D8EE" x="48" y="448" />
+		<entity schema="terra_viva" name="media" color="C1D8EE" x="752" y="1120" />
+		<entity schema="terra_viva" name="messages" color="C1D8EE" x="480" y="96" />
+		<entity schema="terra_viva" name="post_likes" color="3986C1" x="464" y="864" />
+		<entity schema="terra_viva" name="post_media" color="C1D8EE" x="544" y="1152" />
+		<entity schema="terra_viva" name="posts" color="C1D8EE" x="64" y="1024" />
+		<entity schema="terra_viva" name="rt__posts_tags" color="C1D8EE" x="160" y="832" />
+		<entity schema="terra_viva" name="rt__user_varieties" color="C1D8EE" x="1072" y="496" />
+		<entity schema="terra_viva" name="rt__users_chat" color="C1D8EE" x="928" y="80" />
+		<entity schema="terra_viva" name="species" color="C1D8EE" x="1408" y="608" />
+		<entity schema="terra_viva" name="species_alias" color="C1D8EE" x="1440" y="416" />
+		<entity schema="terra_viva" name="spiecies_followers" color="C1D8EE" x="1216" y="384" />
+		<entity schema="terra_viva" name="tag_followers" color="C1D8EE" x="448" y="640" />
+		<entity schema="terra_viva" name="tags" color="C1D8EE" x="272" y="672" />
+		<entity schema="terra_viva" name="user_followers" color="C1D8EE" x="432" y="768" />
+		<entity schema="terra_viva" name="users" color="C1D8EE" x="720" y="528" />
+		<entity schema="terra_viva" name="varieties" color="C1D8EE" x="1296" y="736" />
+		<entity schema="terra_viva" name="variety_followers" color="C1D8EE" x="1072" y="672" />
 		<group name="Group_Social" color="C4E0F9" >
-			<entity schema="terraviva project data structure" name="tag_followers" />
-			<entity schema="terraviva project data structure" name="tags" />
-			<entity schema="terraviva project data structure" name="rt__posts_tags" />
-			<entity schema="terraviva project data structure" name="posts" />
-			<entity schema="terraviva project data structure" name="post_media" />
-			<entity schema="terraviva project data structure" name="media" />
-			<entity schema="terraviva project data structure" name="comments" />
-			<entity schema="terraviva project data structure" name="user_followers" />
-			<entity schema="terraviva project data structure" name="post_likes" />
-			<entity schema="terraviva project data structure" name="comment_likes" />
+			<entity schema="terra_viva" name="tag_followers" />
+			<entity schema="terra_viva" name="tags" />
+			<entity schema="terra_viva" name="rt__posts_tags" />
+			<entity schema="terra_viva" name="posts" />
+			<entity schema="terra_viva" name="post_media" />
+			<entity schema="terra_viva" name="media" />
+			<entity schema="terra_viva" name="comments" />
+			<entity schema="terra_viva" name="user_followers" />
+			<entity schema="terra_viva" name="post_likes" />
+			<entity schema="terra_viva" name="comment_likes" />
 		</group>
 		<group name="Group_seed" color="C4E0F9" >
-			<entity schema="terraviva project data structure" name="species" />
-			<entity schema="terraviva project data structure" name="species_alias" />
-			<entity schema="terraviva project data structure" name="rt__user_varieties" />
-			<entity schema="terraviva project data structure" name="variety_followers" />
-			<entity schema="terraviva project data structure" name="spiecies_followers" />
-			<entity schema="terraviva project data structure" name="varieties" />
+			<entity schema="terra_viva" name="rt__user_varieties" />
+			<entity schema="terra_viva" name="variety_followers" />
+			<entity schema="terra_viva" name="spiecies_followers" />
+			<entity schema="terra_viva" name="varieties" />
+			<entity schema="terra_viva" name="species_alias" />
+			<entity schema="terra_viva" name="species" />
 		</group>
 		<group name="Group_chat" color="C4E0F9" >
-			<entity schema="terraviva project data structure" name="messages" />
-			<entity schema="terraviva project data structure" name="rt__users_chat" />
-			<entity schema="terraviva project data structure" name="chat" />
+			<entity schema="terra_viva" name="messages" />
+			<entity schema="terra_viva" name="rt__users_chat" />
+			<entity schema="terra_viva" name="chat" />
 		</group>
 		<script name="SQL_Editor" id="Editor-1ff3" language="SQL" >
 			<string><![CDATA[CREATE SCHEMA `terraviva project data structure`;
