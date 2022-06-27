@@ -1,18 +1,30 @@
-#TerraViva Project Data Structure
-Generated using [DbSchema](https://dbschema.com)
+# TerraViva Project Data Structure
 
+- [TerraViva Project Data Structure](#terraviva-project-data-structure)
+  * [Table chat](#table-chat)
+  * [Table comment_likes](#table-comment_likes)
+  * [Table comments](#table-comments)
+  * [Table media](#table-media)
+  * [Table messages](#table-messages)
+  * [Table post_likes](#table-post_likes)
+  * [Table post_media](#table-post_media)
+  * [Table posts](#table-posts)
+  * [Table rt__posts_tags](#table-rt__posts_tags)
+  * [Table rt__user_varieties](#table-rt__user_varieties)
+  * [Table rt__users_chat](#table-rt__users_chat)
+  * [Table species](#table-species)
+  * [Table species_alias](#table-species_alias)
+  * [Table spiecies_followers](#table-spiecies_followers)
+  * [Table tag_followers](#table-tag_followers)
+  * [Table tags](#table-tags)
+  * [Table user_followers](#table-user_followers)
+  * [Table users](#table-users)
+  * [Table varieties](#table-varieties)
+  * [Table variety_followers](#table-variety_followers)
 
+![img](./README/DefaultLayout.svg)
 
-
-<a name='layout1'>### Default Layout
-![img](./DefaultLayout.svg)
-
-
-##Tables
-
-1. [terraviva project data structure.chat](#terraviva+project+data+structure.chat) 2. [terraviva project data structure.comment_likes](#terraviva+project+data+structure.comment_likes) 3. [terraviva project data structure.comments](#terraviva+project+data+structure.comments) 4. [terraviva project data structure.media](#terraviva+project+data+structure.media) 5. [terraviva project data structure.messages](#terraviva+project+data+structure.messages) 6. [terraviva project data structure.post_likes](#terraviva+project+data+structure.post_likes) 7. [terraviva project data structure.post_media](#terraviva+project+data+structure.post_media) 8. [terraviva project data structure.posts](#terraviva+project+data+structure.posts) 9. [terraviva project data structure.rt__posts_tags](#terraviva+project+data+structure.rt__posts_tags) 10. [terraviva project data structure.rt__user_varieties](#terraviva+project+data+structure.rt__user_varieties) 11. [terraviva project data structure.rt__users_chat](#terraviva+project+data+structure.rt__users_chat) 12. [terraviva project data structure.species](#terraviva+project+data+structure.species) 13. [terraviva project data structure.species_alias](#terraviva+project+data+structure.species_alias) 14. [terraviva project data structure.spiecies_followers](#terraviva+project+data+structure.spiecies_followers) 15. [terraviva project data structure.tag_followers](#terraviva+project+data+structure.tag_followers) 16. [terraviva project data structure.tags](#terraviva+project+data+structure.tags) 17. [terraviva project data structure.user_followers](#terraviva+project+data+structure.user_followers) 18. [terraviva project data structure.users](#terraviva+project+data+structure.users) 19. [terraviva project data structure.varieties](#terraviva+project+data+structure.varieties) 20. [terraviva project data structure.variety_followers](#terraviva+project+data+structure.variety_followers) 
-
-### Table chat 
+## Table chat 
 This table contains informations about the chat
 
 | Idx | Field Name | Data Type | Description |
@@ -28,7 +40,7 @@ This table contains informations about the chat
 | engine&#61;InnoDB |
 
 
-### Table comment_likes 
+## Table comment_likes 
 This table contains informations about the comment likes
 
 | Idx | Field Name | Data Type | Description |
@@ -44,7 +56,7 @@ This table contains informations about the comment likes
 | engine&#61;InnoDB |
 
 
-### Table comments 
+## Table comments 
 This table contains informations about the comments
 
 | Idx | Field Name | Data Type | Description |
@@ -65,7 +77,7 @@ This table contains informations about the comments
 | engine&#61;InnoDB |
 
 
-### Table media 
+## Table media 
 This table contains informations about media
 
 | Idx | Field Name | Data Type | Description |
@@ -83,7 +95,7 @@ This table contains informations about media
 | engine&#61;InnoDB |
 
 
-### Table messages 
+## Table messages 
 This table contains informatio about sended message
 
 | Idx | Field Name | Data Type | Description |
@@ -102,7 +114,7 @@ This table contains informatio about sended message
 | engine&#61;InnoDB |
 
 
-### Table post_likes 
+## Table post_likes 
 This table contains informations about the posts likes
 
 | Idx | Field Name | Data Type | Description |
@@ -116,7 +128,7 @@ This table contains informations about the posts likes
 |  | fk_post_likes_users | ( user&#95;uuid ) ref [terraviva project data structure&#46;users](#users) (uuid) |  |
 
 
-### Table post_media 
+## Table post_media 
 This table contains informations about the posts media
 
 | Idx | Field Name | Data Type | Description |
@@ -132,7 +144,7 @@ This table contains informations about the posts media
 | engine&#61;InnoDB |
 
 
-### Table posts 
+## Table posts 
 This table contains informations about the posts
 
 | Idx | Field Name | Data Type | Description |
@@ -149,7 +161,7 @@ This table contains informations about the posts
 | engine&#61;InnoDB |
 
 
-### Table rt__posts_tags 
+## Table rt__posts_tags 
 This table contains the informations about the rt posts tags
 
 | Idx | Field Name | Data Type | Description |
@@ -165,7 +177,7 @@ This table contains the informations about the rt posts tags
 | engine&#61;InnoDB |
 
 
-### Table rt__user_varieties 
+## Table rt__user_varieties 
 This table contains the information about rt user varieties
 
 | Idx | Field Name | Data Type | Description |
@@ -181,7 +193,7 @@ This table contains the information about rt user varieties
 | engine&#61;InnoDB |
 
 
-### Table rt__users_chat 
+## Table rt__users_chat 
 This table contains the informations about the rt users chat
 
 | Idx | Field Name | Data Type | Description |
@@ -197,7 +209,7 @@ This table contains the informations about the rt users chat
 | engine&#61;InnoDB |
 
 
-### Table species 
+## Table species 
 This table contains the information about species
 
 | Idx | Field Name | Data Type | Description |
@@ -210,7 +222,7 @@ This table contains the information about species
 | engine&#61;InnoDB |
 
 
-### Table species_alias 
+## Table species_alias 
 This table contains the information about species alias
 
 | Idx | Field Name | Data Type | Description |
@@ -225,7 +237,7 @@ This table contains the information about species alias
 | engine&#61;InnoDB |
 
 
-### Table spiecies_followers 
+## Table spiecies_followers 
 This table contains the information about the species followers
 
 | Idx | Field Name | Data Type | Description |
@@ -242,7 +254,7 @@ This table contains the information about the species followers
 | engine&#61;InnoDB |
 
 
-### Table tag_followers 
+## Table tag_followers 
 This table contains informations about tha tag followers
 
 | Idx | Field Name | Data Type | Description |
@@ -258,7 +270,7 @@ This table contains informations about tha tag followers
 | engine&#61;InnoDB |
 
 
-### Table tags 
+## Table tags 
 This table contains informations about the tags
 
 | Idx | Field Name | Data Type | Description |
@@ -271,7 +283,7 @@ This table contains informations about the tags
 | engine&#61;InnoDB |
 
 
-### Table user_followers 
+## Table user_followers 
 This table contains informations about the user followers
 
 | Idx | Field Name | Data Type | Description |
@@ -287,7 +299,7 @@ This table contains informations about the user followers
 | engine&#61;InnoDB |
 
 
-### Table users 
+## Table users 
 This table contains the information of the user of the system
 
 | Idx | Field Name | Data Type | Description |
@@ -310,7 +322,7 @@ This table contains the information of the user of the system
 | engine&#61;InnoDB |
 
 
-### Table varieties 
+## Table varieties 
 This table contains the information about varieties
 
 | Idx | Field Name | Data Type | Description |
@@ -328,7 +340,7 @@ This table contains the information about varieties
 | engine&#61;InnoDB |
 
 
-### Table variety_followers 
+## Table variety_followers 
 This table contains the information about variety followers
 
 | Idx | Field Name | Data Type | Description |
@@ -343,6 +355,3 @@ This table contains the information about variety followers
 |  | fk_variety_followers_varieties | ( variety&#95;id ) ref [terraviva project data structure&#46;varieties](#varieties) (id) |  |
 | Options |
 | engine&#61;InnoDB |
-
-
-
