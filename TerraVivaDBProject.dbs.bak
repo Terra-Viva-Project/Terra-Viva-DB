@@ -3,11 +3,17 @@
 	<comment><![CDATA[This model rapresent the data structure of the TerraViva Project]]></comment>
 	<schema name="terraviva project data structure" >
 		<table name="chat" prior="chats" >
+			<comment><![CDATA[This table contains informations about the chat]]></comment>
 			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
 				<defo><![CDATA[uuid()]]></defo>
+				<comment><![CDATA[This field contains the uuid of the chat]]></comment>
 			</column>
-			<column name="name" type="VARCHAR" length="100" jt="12" mandatory="y" />
-			<column name="owner_uuid" prior="user_uuid" type="UUID" jt="1111" mandatory="y" />
+			<column name="name" type="VARCHAR" length="100" jt="12" mandatory="y" >
+				<comment><![CDATA[This field contains the name of the chat]]></comment>
+			</column>
+			<column name="owner_uuid" prior="user_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the owner of the chat]]></comment>
+			</column>
 			<index name="pk_chat" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
@@ -23,6 +29,10 @@
 			</column>
 			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" >
 				<comment><![CDATA[This field contains the reference about the user that likes the comment]]></comment>
+			</column>
+			<column name="datetime" prior="created_datetime" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[This field contains the date and the time about the comment's like]]></comment>
 			</column>
 			<index name="pk_comment_likes" unique="PRIMARY_KEY" >
 				<column name="comment_uuid" />
@@ -134,6 +144,10 @@
 			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" >
 				<comment><![CDATA[This field contains the reference about the user who likes the post]]></comment>
 			</column>
+			<column name="datetime" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[This field contains the date and the time about the like at the post]]></comment>
+			</column>
 			<index name="pk_post_likes" unique="PRIMARY_KEY" >
 				<column name="post_uuid" />
 				<column name="user_uuid" />
@@ -217,6 +231,10 @@
 			<column name="variety_id" prior="variety_is" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
 				<comment><![CDATA[This field contains the id of the variety]]></comment>
 			</column>
+			<column name="datetime" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[This field contains the date and the time about adding the variety to the user's list]]></comment>
+			</column>
 			<index name="pk_rt__user_varieties" unique="PRIMARY_KEY" >
 				<column name="user_uuid" />
 				<column name="variety_id" />
@@ -230,8 +248,13 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="rt__users_chat" prior="rt__users_c" >
-			<column name="user_uuid" prior="uuid" type="UUID" jt="1111" mandatory="y" />
-			<column name="chat_uuid" type="UUID" jt="1111" mandatory="y" />
+			<comment><![CDATA[This table contains the informations about the rt users chat]]></comment>
+			<column name="user_uuid" prior="uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the chatting user]]></comment>
+			</column>
+			<column name="chat_uuid" type="UUID" jt="1111" mandatory="y" >
+				<comment><![CDATA[This field contains the reference about the chat]]></comment>
+			</column>
 			<index name="pk_rt__users_chat" unique="PRIMARY_KEY" >
 				<column name="user_uuid" />
 				<column name="chat_uuid" />
@@ -287,6 +310,10 @@
 			<column name="species_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
 				<comment><![CDATA[This field contains the id of the species]]></comment>
 			</column>
+			<column name="follow_datetime" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[this fields contains the date and the time about the follow of the species]]></comment>
+			</column>
 			<index name="pk_spiecies_followers" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
@@ -340,6 +367,10 @@
 			</column>
 			<column name="followed_uuid" type="UUID" jt="1111" mandatory="y" >
 				<comment><![CDATA[This field contains the reference about the followed user]]></comment>
+			</column>
+			<column name="follow_datetime" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[This field contains the date and the time about the follow]]></comment>
 			</column>
 			<index name="pk_user_followers" unique="PRIMARY_KEY" >
 				<column name="follower_uuid" />
@@ -411,6 +442,10 @@
 			<column name="variety_image" type="UUID" jt="1111" >
 				<comment><![CDATA[This field contains the image of the variety]]></comment>
 			</column>
+			<column name="datetime" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[this fields contains the date and the time about the creation of a new variety]]></comment>
+			</column>
 			<index name="pk_varieties" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
@@ -434,6 +469,10 @@
 			<column name="user_uuid" type="UUID" jt="1111" mandatory="y" >
 				<comment><![CDATA[This field contains the uuid of the user]]></comment>
 			</column>
+			<column name="datetime" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<comment><![CDATA[this fields contains the date and the time about the follow of the variety]]></comment>
+			</column>
 			<index name="pk_varieties_follow" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
@@ -448,50 +487,50 @@
 	</schema>
 	<connector name="SqlServer" database="SqlServer" driver_class="com.microsoft.sqlserver.jdbc.SQLServerDriver" driver_jar="mssql-jdbc-10.2.1.jre11.jar" driver_desc="SQL Server Authentication" url="/usr/local/mysql" host="localhost" port="1433" user="root" passwd="Q2lub2Npbm85OQ==" />
 	<layout name="Default Layout" id="Layout-2280" show_relation="columns" >
-		<entity schema="terraviva project data structure" name="chat" color="C1D8EE" x="768" y="112" />
-		<entity schema="terraviva project data structure" name="comment_likes" color="C1D8EE" x="384" y="384" />
-		<entity schema="terraviva project data structure" name="comments" color="C1D8EE" x="48" y="368" />
-		<entity schema="terraviva project data structure" name="media" color="C1D8EE" x="752" y="1040" />
-		<entity schema="terraviva project data structure" name="messages" color="C1D8EE" x="496" y="96" />
-		<entity schema="terraviva project data structure" name="post_likes" color="3986C1" x="464" y="800" />
-		<entity schema="terraviva project data structure" name="post_media" color="C1D8EE" x="544" y="1088" />
-		<entity schema="terraviva project data structure" name="posts" color="C1D8EE" x="64" y="944" />
-		<entity schema="terraviva project data structure" name="rt__posts_tags" color="C1D8EE" x="160" y="768" />
+		<entity schema="terraviva project data structure" name="chat" color="C1D8EE" x="704" y="112" />
+		<entity schema="terraviva project data structure" name="comment_likes" color="C1D8EE" x="384" y="352" />
+		<entity schema="terraviva project data structure" name="comments" color="C1D8EE" x="48" y="336" />
+		<entity schema="terraviva project data structure" name="media" color="C1D8EE" x="752" y="1008" />
+		<entity schema="terraviva project data structure" name="messages" color="C1D8EE" x="432" y="96" />
+		<entity schema="terraviva project data structure" name="post_likes" color="3986C1" x="464" y="768" />
+		<entity schema="terraviva project data structure" name="post_media" color="C1D8EE" x="544" y="1056" />
+		<entity schema="terraviva project data structure" name="posts" color="C1D8EE" x="64" y="912" />
+		<entity schema="terraviva project data structure" name="rt__posts_tags" color="C1D8EE" x="160" y="736" />
 		<entity schema="terraviva project data structure" name="rt__user_varieties" color="C1D8EE" x="1024" y="496" />
-		<entity schema="terraviva project data structure" name="rt__users_chat" color="C1D8EE" x="944" y="80" />
+		<entity schema="terraviva project data structure" name="rt__users_chat" color="C1D8EE" x="880" y="80" />
 		<entity schema="terraviva project data structure" name="species" color="C1D8EE" x="1360" y="608" />
 		<entity schema="terraviva project data structure" name="species_alias" color="C1D8EE" x="1392" y="416" />
-		<entity schema="terraviva project data structure" name="spiecies_followers" color="C1D8EE" x="1216" y="384" />
-		<entity schema="terraviva project data structure" name="tag_followers" color="C1D8EE" x="448" y="560" />
-		<entity schema="terraviva project data structure" name="tags" color="C1D8EE" x="272" y="608" />
-		<entity schema="terraviva project data structure" name="user_followers" color="C1D8EE" x="432" y="688" />
-		<entity schema="terraviva project data structure" name="users" color="C1D8EE" x="736" y="528" />
+		<entity schema="terraviva project data structure" name="spiecies_followers" color="C1D8EE" x="1168" y="384" />
+		<entity schema="terraviva project data structure" name="tag_followers" color="C1D8EE" x="448" y="528" />
+		<entity schema="terraviva project data structure" name="tags" color="C1D8EE" x="272" y="576" />
+		<entity schema="terraviva project data structure" name="user_followers" color="C1D8EE" x="432" y="656" />
+		<entity schema="terraviva project data structure" name="users" color="C1D8EE" x="672" y="528" />
 		<entity schema="terraviva project data structure" name="varieties" color="C1D8EE" x="1248" y="736" />
 		<entity schema="terraviva project data structure" name="variety_followers" color="C1D8EE" x="1024" y="672" />
 		<group name="Group_Social" color="C4E0F9" >
-			<entity schema="terraviva project data structure" name="comments" />
-			<entity schema="terraviva project data structure" name="comment_likes" />
 			<entity schema="terraviva project data structure" name="tag_followers" />
 			<entity schema="terraviva project data structure" name="tags" />
-			<entity schema="terraviva project data structure" name="user_followers" />
 			<entity schema="terraviva project data structure" name="rt__posts_tags" />
-			<entity schema="terraviva project data structure" name="post_likes" />
 			<entity schema="terraviva project data structure" name="posts" />
 			<entity schema="terraviva project data structure" name="post_media" />
 			<entity schema="terraviva project data structure" name="media" />
+			<entity schema="terraviva project data structure" name="comments" />
+			<entity schema="terraviva project data structure" name="user_followers" />
+			<entity schema="terraviva project data structure" name="post_likes" />
+			<entity schema="terraviva project data structure" name="comment_likes" />
 		</group>
 		<group name="Group_seed" color="C4E0F9" >
-			<entity schema="terraviva project data structure" name="variety_followers" />
-			<entity schema="terraviva project data structure" name="varieties" />
 			<entity schema="terraviva project data structure" name="species" />
 			<entity schema="terraviva project data structure" name="species_alias" />
-			<entity schema="terraviva project data structure" name="spiecies_followers" />
 			<entity schema="terraviva project data structure" name="rt__user_varieties" />
+			<entity schema="terraviva project data structure" name="variety_followers" />
+			<entity schema="terraviva project data structure" name="spiecies_followers" />
+			<entity schema="terraviva project data structure" name="varieties" />
 		</group>
 		<group name="Group_chat" color="C4E0F9" >
-			<entity schema="terraviva project data structure" name="chat" />
-			<entity schema="terraviva project data structure" name="rt__users_chat" />
 			<entity schema="terraviva project data structure" name="messages" />
+			<entity schema="terraviva project data structure" name="rt__users_chat" />
+			<entity schema="terraviva project data structure" name="chat" />
 		</group>
 		<script name="SQL_Editor" id="Editor-1ff3" language="SQL" >
 			<string><![CDATA[CREATE SCHEMA `terraviva project data structure`;
