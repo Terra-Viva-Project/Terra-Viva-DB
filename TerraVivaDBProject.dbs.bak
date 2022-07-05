@@ -17,6 +17,9 @@
 			<index name="pk_chat" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
+			<index name="fk_chat_users" unique="NORMAL" >
+				<column name="owner_uuid" />
+			</index>
 			<fk name="fk_chat_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="owner_uuid" pk="uuid" />
 			</fk>
@@ -31,11 +34,14 @@
 				<comment><![CDATA[This field contains the reference about the user that likes the comment]]></comment>
 			</column>
 			<column name="datetime" prior="created_datetime" type="DATETIME" jt="93" mandatory="y" >
-				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[This field contains the date and the time about the comment's like]]></comment>
 			</column>
 			<index name="pk_comment_likes" unique="PRIMARY_KEY" >
 				<column name="comment_uuid" />
+				<column name="user_uuid" />
+			</index>
+			<index name="fk_comment_likes_users" unique="NORMAL" >
 				<column name="user_uuid" />
 			</index>
 			<fk name="fk_comment_likes_comments" to_schema="terra_viva" to_table="comments" >
@@ -60,7 +66,7 @@
 			</column>
 			<column name="parent" type="UUID" jt="1111" />
 			<column name="created_datetime" type="DATETIME" jt="93" mandatory="y" >
-				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[This field contains the date and the time about the comment]]></comment>
 			</column>
 			<column name="message" type="VARCHAR" length="500" jt="12" mandatory="y" >
@@ -69,14 +75,17 @@
 			<index name="pk_comments" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
+			<index name="fk_comments_comments" unique="NORMAL" >
+				<column name="parent" />
+			</index>
+			<index name="fk_comments_posts" unique="NORMAL" >
+				<column name="post_uuid" />
+			</index>
+			<index name="fk_comments_users" unique="NORMAL" >
+				<column name="user_uuid" />
+			</index>
 			<fk name="fk_comments_comments" to_schema="terra_viva" to_table="comments" >
 				<fk_column name="parent" pk="uuid" />
-			</fk>
-			<fk name="fk_comments_posts" to_schema="terra_viva" to_table="posts" >
-				<fk_column name="post_uuid" pk="uuid" />
-			</fk>
-			<fk name="fk_comments_users" to_schema="terra_viva" to_table="users" >
-				<fk_column name="user_uuid" pk="uuid" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
@@ -96,11 +105,14 @@
 				<comment><![CDATA[This field contains the reference about the user that load the media]]></comment>
 			</column>
 			<column name="created_datetime" type="DATETIME" jt="93" >
-				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[This field contains the date and the time about the media]]></comment>
 			</column>
 			<index name="pk_medias" unique="PRIMARY_KEY" >
 				<column name="uuid" />
+			</index>
+			<index name="fk_medias_users" unique="NORMAL" >
+				<column name="user_uuid" />
 			</index>
 			<fk name="fk_medias_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
@@ -116,7 +128,7 @@
 				<comment><![CDATA[This field contains the reference about the chat that own the message]]></comment>
 			</column>
 			<column name="sended_datetime" prior="send_datetime" type="DATETIME" jt="93" mandatory="y" >
-				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[This field contains the date and the time about the message]]></comment>
 			</column>
 			<column name="message" type="VARCHAR" length="1000" jt="12" mandatory="y" >
@@ -127,6 +139,12 @@
 			</column>
 			<index name="pk_messages" unique="PRIMARY_KEY" >
 				<column name="uuid" />
+			</index>
+			<index name="fk_messages_chat" unique="NORMAL" >
+				<column name="chat_uuid" />
+			</index>
+			<index name="fk_messages_users" unique="NORMAL" >
+				<column name="user_uuid" />
 			</index>
 			<fk name="fk_messages_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
@@ -145,11 +163,14 @@
 				<comment><![CDATA[This field contains the reference about the user who likes the post]]></comment>
 			</column>
 			<column name="datetime" type="DATETIME" jt="93" mandatory="y" >
-				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[This field contains the date and the time about the like at the post]]></comment>
 			</column>
 			<index name="pk_post_likes" unique="PRIMARY_KEY" >
 				<column name="post_uuid" />
+				<column name="user_uuid" />
+			</index>
+			<index name="fk_post_likes_users" unique="NORMAL" >
 				<column name="user_uuid" />
 			</index>
 			<fk name="fk_post_likes_posts" to_schema="terra_viva" to_table="posts" >
@@ -169,6 +190,9 @@
 			</column>
 			<index name="pk_post_media" unique="PRIMARY_KEY" >
 				<column name="post_uuid" />
+				<column name="media_uuid" />
+			</index>
+			<index name="fk_post_media_media" unique="NORMAL" >
 				<column name="media_uuid" />
 			</index>
 			<fk name="fk_post_media_posts" to_schema="terra_viva" to_table="posts" >
@@ -192,11 +216,14 @@
 				<comment><![CDATA[This field contains the message of the post]]></comment>
 			</column>
 			<column name="created_datetime" type="DATETIME" jt="93" mandatory="y" >
-				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[This field contains the date and the time about the post]]></comment>
 			</column>
 			<index name="pk_posts" unique="PRIMARY_KEY" >
 				<column name="uuid" />
+			</index>
+			<index name="fk_users_posts" unique="NORMAL" >
+				<column name="user_uuid" />
 			</index>
 			<fk name="fk_users_posts" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
@@ -213,6 +240,9 @@
 			</column>
 			<index name="pk_rt__posts_tags" unique="PRIMARY_KEY" >
 				<column name="posts_uuid" />
+				<column name="tag_uuid" />
+			</index>
+			<index name="fk_rt__posts_tags_tags" unique="NORMAL" >
 				<column name="tag_uuid" />
 			</index>
 			<fk name="fk_rt__posts_tags_tags" to_schema="terra_viva" to_table="tags" >
@@ -232,11 +262,14 @@
 				<comment><![CDATA[This field contains the id of the variety]]></comment>
 			</column>
 			<column name="datetime" type="DATETIME" jt="93" mandatory="y" >
-				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[This field contains the date and the time about adding the variety to the user's list]]></comment>
 			</column>
 			<index name="pk_rt__user_varieties" unique="PRIMARY_KEY" >
 				<column name="user_uuid" />
+				<column name="variety_id" />
+			</index>
+			<index name="fk_rt__user_varieties" unique="NORMAL" >
 				<column name="variety_id" />
 			</index>
 			<fk name="fk_rt__user_varieties_users" to_schema="terra_viva" to_table="users" >
@@ -257,6 +290,9 @@
 			</column>
 			<index name="pk_rt__users_chat" unique="PRIMARY_KEY" >
 				<column name="user_uuid" />
+				<column name="chat_uuid" />
+			</index>
+			<index name="fk_rt__users_chat_chat" unique="NORMAL" >
 				<column name="chat_uuid" />
 			</index>
 			<fk name="fk_rt__users_chat_users" to_schema="terra_viva" to_table="users" >
@@ -293,12 +329,15 @@
 			<index name="pk_species_alias" unique="PRIMARY_KEY" >
 				<column name="id" />
 			</index>
+			<index name="fk_species_alias_species" unique="NORMAL" >
+				<column name="species_id" />
+			</index>
 			<fk name="fk_species_alias_species" to_schema="terra_viva" to_table="species" >
 				<fk_column name="species_id" pk="id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
-		<table name="spiecies_followers" prior="piecies_followers" >
+		<table name="species_followers" prior="spiecies_followers" >
 			<comment><![CDATA[This table contains the information about the species followers]]></comment>
 			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
 				<defo><![CDATA[uuid()]]></defo>
@@ -311,11 +350,17 @@
 				<comment><![CDATA[This field contains the id of the species]]></comment>
 			</column>
 			<column name="follow_datetime" type="DATETIME" jt="93" mandatory="y" >
-				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[this fields contains the date and the time about the follow of the species]]></comment>
 			</column>
 			<index name="pk_spiecies_followers" unique="PRIMARY_KEY" >
 				<column name="uuid" />
+			</index>
+			<index name="fk_spiecies_followers_species" unique="NORMAL" >
+				<column name="species_id" />
+			</index>
+			<index name="fk_spiecies_followers_users" unique="NORMAL" >
+				<column name="user_uuid" />
 			</index>
 			<fk name="fk_spiecies_followers_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
@@ -335,6 +380,9 @@
 			</column>
 			<index name="pk_tag_followers" unique="PRIMARY_KEY" >
 				<column name="tag_uuid" />
+				<column name="user_uuid" />
+			</index>
+			<index name="fk_tag_followers_users" unique="NORMAL" >
 				<column name="user_uuid" />
 			</index>
 			<fk name="fk_tag_followers_tags" to_schema="terra_viva" to_table="tags" >
@@ -368,11 +416,14 @@
 				<comment><![CDATA[This field contains the reference about the followed user]]></comment>
 			</column>
 			<column name="follow_datetime" type="DATETIME" jt="93" mandatory="y" >
-				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[This field contains the date and the time about the follow]]></comment>
 			</column>
 			<index name="pk_user_followers" unique="PRIMARY_KEY" >
 				<column name="follower_uuid" />
+				<column name="followed_uuid" />
+			</index>
+			<index name="fk_user_followed" unique="NORMAL" >
 				<column name="followed_uuid" />
 			</index>
 			<fk name="fk_user_follower" to_schema="terra_viva" to_table="users" >
@@ -396,7 +447,7 @@
 				<comment><![CDATA[This field contains the date of birth of the user]]></comment>
 			</column>
 			<column name="subscribe_datetime" prior="subscribe_date" type="DATETIME" jt="93" >
-				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[This field contains the time that has passed since enrollment]]></comment>
 			</column>
 			<column name="email" type="VARCHAR" length="255" jt="12" mandatory="y" >
@@ -421,6 +472,15 @@
 			<index name="pk_users" unique="PRIMARY_KEY" >
 				<column name="uuid" />
 			</index>
+			<index name="unq_users" unique="UNIQUE_KEY" >
+				<column name="username" />
+			</index>
+			<index name="unq_users_0" unique="UNIQUE_KEY" >
+				<column name="email" />
+			</index>
+			<index name="fk_users_media" unique="NORMAL" >
+				<column name="profile_image" />
+			</index>
 			<fk name="fk_users_media" to_schema="terra_viva" to_table="media" >
 				<fk_column name="profile_image" pk="uuid" />
 			</fk>
@@ -442,11 +502,17 @@
 				<comment><![CDATA[This field contains the image of the variety]]></comment>
 			</column>
 			<column name="datetime" type="DATETIME" jt="93" mandatory="y" >
-				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[this fields contains the date and the time about the creation of a new variety]]></comment>
 			</column>
 			<index name="pk_varieties" unique="PRIMARY_KEY" >
 				<column name="id" />
+			</index>
+			<index name="fk_varieties_media" unique="NORMAL" >
+				<column name="variety_image" />
+			</index>
+			<index name="fk_varieties_species" unique="NORMAL" >
+				<column name="species_id" />
 			</index>
 			<fk name="fk_varieties_species" to_schema="terra_viva" to_table="species" >
 				<fk_column name="species_id" pk="id" />
@@ -458,10 +524,6 @@
 		</table>
 		<table name="variety_followers" prior="variety_follows" >
 			<comment><![CDATA[This table contains the information about variety followers]]></comment>
-			<column name="uuid" type="UUID" jt="1111" mandatory="y" >
-				<defo><![CDATA[uuid()]]></defo>
-				<comment><![CDATA[This field contains the uuid of the variety followers]]></comment>
-			</column>
 			<column name="variety_id" prior="variety_uuid" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
 				<comment><![CDATA[This field contains the id of the variety]]></comment>
 			</column>
@@ -469,11 +531,15 @@
 				<comment><![CDATA[This field contains the uuid of the user]]></comment>
 			</column>
 			<column name="datetime" type="DATETIME" jt="93" mandatory="y" >
-				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+				<defo><![CDATA[current_timestamp()]]></defo>
 				<comment><![CDATA[this fields contains the date and the time about the follow of the variety]]></comment>
 			</column>
-			<index name="pk_varieties_follow" unique="PRIMARY_KEY" >
-				<column name="uuid" />
+			<index name="fk_variety_followers_varieties" unique="NORMAL" >
+				<column name="variety_id" />
+			</index>
+			<index name="pk_variety_followers" unique="PRIMARY_KEY" >
+				<column name="user_uuid" />
+				<column name="variety_id" />
 			</index>
 			<fk name="fk_variety_followers_users" to_schema="terra_viva" to_table="users" >
 				<fk_column name="user_uuid" pk="uuid" />
@@ -484,271 +550,53 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 	</schema>
-	<connector name="MariaDb" database="MariaDb" driver_class="org.mariadb.jdbc.Driver" driver_jar="mariadb-java-client-3.0.5.jar" driver_desc="Standard" host="129.152.1.101" port="3306" instance="terra_viva" user="terra_viva_admin" passwd="YjB0dGlNb3VzMys=" schema_mapping="terraviva project data structure:terra_viva" />
-	<connector name="SqlServer" database="SqlServer" driver_class="com.microsoft.sqlserver.jdbc.SQLServerDriver" driver_jar="mssql-jdbc-10.2.1.jre11.jar" driver_desc="SQL Server Authentication" url="/usr/local/mysql" host="localhost" port="1433" user="root" passwd="Q2lub2Npbm85OQ==" />
 	<layout name="Default Layout" id="Layout-2280" show_relation="columns" >
 		<comment><![CDATA[terra-viva_db]]></comment>
-		<entity schema="terra_viva" name="chat" color="C1D8EE" x="752" y="112" />
-		<entity schema="terra_viva" name="comment_likes" color="C1D8EE" x="384" y="448" />
-		<entity schema="terra_viva" name="comments" color="C1D8EE" x="48" y="448" />
-		<entity schema="terra_viva" name="media" color="C1D8EE" x="752" y="1120" />
-		<entity schema="terra_viva" name="messages" color="C1D8EE" x="480" y="96" />
-		<entity schema="terra_viva" name="post_likes" color="3986C1" x="464" y="864" />
-		<entity schema="terra_viva" name="post_media" color="C1D8EE" x="544" y="1152" />
-		<entity schema="terra_viva" name="posts" color="C1D8EE" x="64" y="1024" />
-		<entity schema="terra_viva" name="rt__posts_tags" color="C1D8EE" x="160" y="832" />
-		<entity schema="terra_viva" name="rt__user_varieties" color="C1D8EE" x="1072" y="496" />
-		<entity schema="terra_viva" name="rt__users_chat" color="C1D8EE" x="928" y="80" />
-		<entity schema="terra_viva" name="species" color="C1D8EE" x="1408" y="608" />
-		<entity schema="terra_viva" name="species_alias" color="C1D8EE" x="1440" y="416" />
-		<entity schema="terra_viva" name="spiecies_followers" color="C1D8EE" x="1216" y="384" />
-		<entity schema="terra_viva" name="tag_followers" color="C1D8EE" x="448" y="640" />
-		<entity schema="terra_viva" name="tags" color="C1D8EE" x="272" y="672" />
-		<entity schema="terra_viva" name="user_followers" color="C1D8EE" x="432" y="768" />
-		<entity schema="terra_viva" name="users" color="C1D8EE" x="720" y="528" />
-		<entity schema="terra_viva" name="varieties" color="C1D8EE" x="1296" y="736" />
-		<entity schema="terra_viva" name="variety_followers" color="C1D8EE" x="1072" y="672" />
+		<entity schema="terra_viva" name="chat" color="C1D8EE" x="768" y="112" />
+		<entity schema="terra_viva" name="comment_likes" color="C1D8EE" x="384" y="512" />
+		<entity schema="terra_viva" name="comments" color="C1D8EE" x="48" y="512" />
+		<entity schema="terra_viva" name="media" color="C1D8EE" x="752" y="1184" />
+		<entity schema="terra_viva" name="messages" color="C1D8EE" x="496" y="96" />
+		<entity schema="terra_viva" name="post_likes" color="3986C1" x="464" y="928" />
+		<entity schema="terra_viva" name="post_media" color="C1D8EE" x="544" y="1216" />
+		<entity schema="terra_viva" name="posts" color="C1D8EE" x="80" y="1072" />
+		<entity schema="terra_viva" name="rt__posts_tags" color="C1D8EE" x="160" y="896" />
+		<entity schema="terra_viva" name="rt__user_varieties" color="C1D8EE" x="1088" y="496" />
+		<entity schema="terra_viva" name="rt__users_chat" color="C1D8EE" x="944" y="80" />
+		<entity schema="terra_viva" name="species" color="C1D8EE" x="1424" y="608" />
+		<entity schema="terra_viva" name="species_alias" color="C1D8EE" x="1456" y="416" />
+		<entity schema="terra_viva" name="species_followers" color="C1D8EE" x="1232" y="384" />
+		<entity schema="terra_viva" name="tag_followers" color="C1D8EE" x="448" y="704" />
+		<entity schema="terra_viva" name="tags" color="C1D8EE" x="272" y="736" />
+		<entity schema="terra_viva" name="user_followers" color="C1D8EE" x="432" y="832" />
+		<entity schema="terra_viva" name="users" color="C1D8EE" x="736" y="528" />
+		<entity schema="terra_viva" name="varieties" color="C1D8EE" x="1312" y="736" />
+		<entity schema="terra_viva" name="variety_followers" color="C1D8EE" x="1088" y="672" />
 		<group name="Group_Social" color="C4E0F9" >
 			<entity schema="terra_viva" name="tag_followers" />
 			<entity schema="terra_viva" name="tags" />
 			<entity schema="terra_viva" name="rt__posts_tags" />
-			<entity schema="terra_viva" name="posts" />
 			<entity schema="terra_viva" name="post_media" />
 			<entity schema="terra_viva" name="media" />
-			<entity schema="terra_viva" name="comments" />
 			<entity schema="terra_viva" name="user_followers" />
 			<entity schema="terra_viva" name="post_likes" />
 			<entity schema="terra_viva" name="comment_likes" />
+			<entity schema="terra_viva" name="posts" />
+			<entity schema="terra_viva" name="comments" />
 		</group>
 		<group name="Group_seed" color="C4E0F9" >
 			<entity schema="terra_viva" name="rt__user_varieties" />
-			<entity schema="terra_viva" name="variety_followers" />
-			<entity schema="terra_viva" name="spiecies_followers" />
 			<entity schema="terra_viva" name="varieties" />
 			<entity schema="terra_viva" name="species_alias" />
 			<entity schema="terra_viva" name="species" />
+			<entity schema="terra_viva" name="species_followers" />
+			<entity schema="terra_viva" name="variety_followers" />
 		</group>
 		<group name="Group_chat" color="C4E0F9" >
 			<entity schema="terra_viva" name="messages" />
 			<entity schema="terra_viva" name="rt__users_chat" />
 			<entity schema="terra_viva" name="chat" />
 		</group>
-		<script name="SQL_Editor" id="Editor-1ff3" language="SQL" >
-			<string><![CDATA[CREATE SCHEMA `terraviva project data structure`;
-
-CREATE TABLE `terraviva project data structure`.species ( 
-	id                   BIGINT UNSIGNED NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
-	scientific_name      VARCHAR(100)  NOT NULL    
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.species_alias ( 
-	id                   BIGINT UNSIGNED NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
-	species_id           INT UNSIGNED NOT NULL    ,
-	CONSTRAINT fk_species_alias_species FOREIGN KEY ( species_id ) REFERENCES `terraviva project data structure`.species( id ) ON DELETE NO ACTION ON UPDATE NO ACTION
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.tags ( 
-	uuid                 UUID  NOT NULL DEFAULT (uuid())   PRIMARY KEY,
-	tag                  VARCHAR(30)  NOT NULL    
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.tbl ( 
- );
-
-CREATE TABLE `terraviva project data structure`.chat ( 
-	uuid                 UUID  NOT NULL DEFAULT (uuid())   PRIMARY KEY,
-	name                 VARCHAR(100)  NOT NULL    ,
-	owner_uuid           UUID  NOT NULL    
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.comment_likes ( 
-	comment_uuid         UUID  NOT NULL    ,
-	user_uuid            UUID  NOT NULL    ,
-	CONSTRAINT pk_comment_likes PRIMARY KEY ( comment_uuid, user_uuid )
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.comments ( 
-	uuid                 UUID  NOT NULL DEFAULT (uuid())   PRIMARY KEY,
-	post_uuid            UUID  NOT NULL    ,
-	user_uuid            UUID  NOT NULL    ,
-	parent               UUID      ,
-	created_datetime     DATETIME  NOT NULL DEFAULT (CURRENT_TIMESTAMP)   ,
-	message              VARCHAR(500)  NOT NULL    
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.media ( 
-	uuid                 UUID  NOT NULL DEFAULT (uuid())   PRIMARY KEY,
-	location             VARCHAR(500)  NOT NULL    ,
-	media_md5            CHAR(32)  NOT NULL    ,
-	user_uuid            UUID  NOT NULL    ,
-	created_datetime     DATETIME   DEFAULT (CURRENT_TIMESTAMP)   
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.messages ( 
-	user_uuid            UUID  NOT NULL    ,
-	chat_uuid            UUID  NOT NULL    ,
-	sended_datetime      DATETIME  NOT NULL DEFAULT (CURRENT_TIMESTAMP)   ,
-	message              VARCHAR(1000)  NOT NULL    ,
-	uuid                 UUID  NOT NULL    PRIMARY KEY
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.post_likes ( 
-	post_uuid            UUID  NOT NULL    ,
-	user_uuid            UUID  NOT NULL    ,
-	CONSTRAINT pk_post_likes PRIMARY KEY ( post_uuid, user_uuid )
- );
-
-CREATE TABLE `terraviva project data structure`.post_media ( 
-	post_uuid            UUID  NOT NULL    ,
-	media_uuid           UUID  NOT NULL    ,
-	CONSTRAINT pk_post_media PRIMARY KEY ( post_uuid, media_uuid )
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.posts ( 
-	user_uuid            UUID  NOT NULL    ,
-	uuid                 UUID  NOT NULL DEFAULT (uuid())   PRIMARY KEY,
-	message              VARCHAR(1000)  NOT NULL    ,
-	created_datetime     DATETIME  NOT NULL DEFAULT (CURRENT_TIMESTAMP)   
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.rt__posts_tags ( 
-	posts_uuid           UUID  NOT NULL    ,
-	tag_uuid             UUID  NOT NULL    ,
-	CONSTRAINT pk_rt__posts_tags PRIMARY KEY ( posts_uuid, tag_uuid )
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.rt__user_varieties ( 
-	user_uuid            UUID  NOT NULL    ,
-	variety_id           BIGINT UNSIGNED NOT NULL    ,
-	CONSTRAINT pk_rt__user_varieties PRIMARY KEY ( user_uuid, variety_id )
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.rt__users_chat ( 
-	user_uuid            UUID  NOT NULL    ,
-	chat_uuid            UUID  NOT NULL    ,
-	CONSTRAINT pk_rt__users_chat PRIMARY KEY ( user_uuid, chat_uuid )
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.spiecies_followers ( 
-	uuid                 UUID  NOT NULL DEFAULT (uuid())   PRIMARY KEY,
-	user_uuid            UUID  NOT NULL    ,
-	species_id           BIGINT UNSIGNED NOT NULL    
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.tag_followers ( 
-	tag_uuid             UUID  NOT NULL    ,
-	user_uuid            UUID  NOT NULL    ,
-	CONSTRAINT pk_tag_followers PRIMARY KEY ( tag_uuid, user_uuid )
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.user_followers ( 
-	follower_uuid        UUID  NOT NULL    ,
-	followed_uuid        UUID  NOT NULL    ,
-	CONSTRAINT pk_user_followers PRIMARY KEY ( follower_uuid, followed_uuid )
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.users ( 
-	uuid                 UUID  NOT NULL DEFAULT (uuid())   PRIMARY KEY,
-	username             VARCHAR(100)  NOT NULL    ,
-	birth_date           DATE      ,
-	subscribe_datetime   DATETIME   DEFAULT (CURRENT_TIMESTAMP)   ,
-	email                VARCHAR(255)  NOT NULL    ,
-	name                 VARCHAR(100)      ,
-	surname              VARCHAR(100)      ,
-	verified             BOOLEAN  NOT NULL DEFAULT (false)   ,
-	bio                  VARCHAR(1000)      ,
-	profile_image        UUID      
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.varieties ( 
-	id                   BIGINT UNSIGNED NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
-	name                 VARCHAR(150)  NOT NULL    ,
-	species_id           BIGINT UNSIGNED NOT NULL    ,
-	variety_image        UUID      
- ) engine=InnoDB;
-
-CREATE TABLE `terraviva project data structure`.variety_followers ( 
-	uuid                 UUID  NOT NULL DEFAULT (uuid())   PRIMARY KEY,
-	variety_id           BIGINT UNSIGNED NOT NULL    ,
-	user_uuid            UUID  NOT NULL    
- ) engine=InnoDB;
-
-ALTER TABLE `terraviva project data structure`.chat ADD CONSTRAINT fk_chat_users FOREIGN KEY ( owner_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.comment_likes ADD CONSTRAINT fk_comment_likes_comments FOREIGN KEY ( comment_uuid ) REFERENCES `terraviva project data structure`.comments( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.comment_likes ADD CONSTRAINT fk_comment_likes_users FOREIGN KEY ( user_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.comments ADD CONSTRAINT fk_comments_comments FOREIGN KEY ( parent ) REFERENCES `terraviva project data structure`.comments( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.comments ADD CONSTRAINT fk_comments_posts FOREIGN KEY ( post_uuid ) REFERENCES `terraviva project data structure`.posts( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.comments ADD CONSTRAINT fk_comments_users FOREIGN KEY ( user_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.media ADD CONSTRAINT fk_medias_users FOREIGN KEY ( user_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.messages ADD CONSTRAINT fk_messages_users FOREIGN KEY ( user_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.messages ADD CONSTRAINT fk_messages_chat FOREIGN KEY ( chat_uuid ) REFERENCES `terraviva project data structure`.chat( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.post_likes ADD CONSTRAINT fk_post_likes_posts FOREIGN KEY ( post_uuid ) REFERENCES `terraviva project data structure`.posts( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.post_likes ADD CONSTRAINT fk_post_likes_users FOREIGN KEY ( user_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.post_media ADD CONSTRAINT fk_post_media_posts FOREIGN KEY ( post_uuid ) REFERENCES `terraviva project data structure`.posts( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.post_media ADD CONSTRAINT fk_post_media_media FOREIGN KEY ( media_uuid ) REFERENCES `terraviva project data structure`.media( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.posts ADD CONSTRAINT fk_users_posts FOREIGN KEY ( user_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.rt__posts_tags ADD CONSTRAINT fk_rt__posts_tags_tags FOREIGN KEY ( tag_uuid ) REFERENCES `terraviva project data structure`.tags( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.rt__posts_tags ADD CONSTRAINT fk_rt__posts_tags_posts FOREIGN KEY ( posts_uuid ) REFERENCES `terraviva project data structure`.posts( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.rt__user_varieties ADD CONSTRAINT fk_rt__user_varieties_users FOREIGN KEY ( user_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.rt__user_varieties ADD CONSTRAINT fk_rt__user_varieties FOREIGN KEY ( variety_id ) REFERENCES `terraviva project data structure`.varieties( id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.rt__users_chat ADD CONSTRAINT fk_rt__users_chat_users FOREIGN KEY ( user_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.rt__users_chat ADD CONSTRAINT fk_rt__users_chat_chat FOREIGN KEY ( chat_uuid ) REFERENCES `terraviva project data structure`.chat( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.spiecies_followers ADD CONSTRAINT fk_spiecies_followers_users FOREIGN KEY ( user_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.spiecies_followers ADD CONSTRAINT fk_spiecies_followers_species FOREIGN KEY ( species_id ) REFERENCES `terraviva project data structure`.species( id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.tag_followers ADD CONSTRAINT fk_tag_followers_tags FOREIGN KEY ( tag_uuid ) REFERENCES `terraviva project data structure`.tags( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.tag_followers ADD CONSTRAINT fk_tag_followers_users FOREIGN KEY ( user_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.user_followers ADD CONSTRAINT fk_user_follower FOREIGN KEY ( follower_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.user_followers ADD CONSTRAINT fk_user_followed FOREIGN KEY ( followed_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.users ADD CONSTRAINT fk_users_media FOREIGN KEY ( profile_image ) REFERENCES `terraviva project data structure`.media( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.varieties ADD CONSTRAINT fk_varieties_species FOREIGN KEY ( species_id ) REFERENCES `terraviva project data structure`.species( id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.varieties ADD CONSTRAINT fk_varieties_media FOREIGN KEY ( variety_image ) REFERENCES `terraviva project data structure`.media( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.variety_followers ADD CONSTRAINT fk_variety_followers_users FOREIGN KEY ( user_uuid ) REFERENCES `terraviva project data structure`.users( uuid ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.variety_followers ADD CONSTRAINT fk_variety_followers_varieties FOREIGN KEY ( variety_id ) REFERENCES `terraviva project data structure`.varieties( id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE `terraviva project data structure`.messages COMMENT 'This table contains informatio about sended message';
-
-ALTER TABLE `terraviva project data structure`.messages MODIFY user_uuid UUID  NOT NULL   COMMENT 'This field contains the reference about the user that have sent the message';
-
-ALTER TABLE `terraviva project data structure`.messages MODIFY chat_uuid UUID  NOT NULL   COMMENT 'This field contains the reference about the chat that own the message';
-
-ALTER TABLE `terraviva project data structure`.messages MODIFY sended_datetime DATETIME  NOT NULL DEFAULT (CURRENT_TIMESTAMP)  COMMENT 'This field contains the date and the time about the message';
-
-ALTER TABLE `terraviva project data structure`.messages MODIFY message VARCHAR(1000)  NOT NULL   COMMENT 'this field contains the message sent';
-
-ALTER TABLE `terraviva project data structure`.messages MODIFY uuid UUID  NOT NULL   COMMENT 'This field contains the uuid of the message';
-
-ALTER TABLE `terraviva project data structure`.users COMMENT 'contains the information of the user of the system';]]></string>
-		</script>
 		<script name="SQL_Editor_001" id="Editor-a7c" language="SQL" >
 			<string><![CDATA[CREATE SCHEMA `terraviva project data structure`;
 
@@ -1310,6 +1158,39 @@ ALTER TABLE `terraviva project data structure`.variety_followers MODIFY uuid UUI
 ALTER TABLE `terraviva project data structure`.variety_followers MODIFY variety_id BIGINT UNSIGNED NOT NULL   COMMENT 'This field contains the id of the variety';
 
 ALTER TABLE `terraviva project data structure`.variety_followers MODIFY user_uuid UUID  NOT NULL   COMMENT 'This field contains the uuid of the user';]]></string>
+		</script>
+		<script name="comments" id="Editor-2422" language="SQL" >
+			<string><![CDATA[UPDATE users
+SET
+	username = ?
+	birth_date = ?
+WHERE uuid = ?;]]></string>
+		</script>
+		<script name="comments_001" id="Editor-26c9" language="SQL" >
+			<string><![CDATA[INSERT INTO terra_viva.comments
+	( post_uuid, user_uuid, parent, created_datetime, message) VALUES ( UUID(), UUID(), null, NOW(), 'suca');]]></string>
+		</script>
+		<script name="comments_002" id="Editor-a45" language="SQL" >
+			<string><![CDATA[DELETE FROM terra_viva.co]]></string>
+		</script>
+		<script name="users" id="Editor-868" language="SQL" >
+			<string><![CDATA[UPDATE users 
+SET
+	 ... = ... ;]]></string>
+		</script>
+		<script name="variety_followers_001" id="Editor-25fa" language="SQL" >
+			<string><![CDATA[WITH RECURSIVE comments_tree (uuid, message, user_uuid, created_datetime, path) AS
+(
+  SELECT uuid, message, user_uuid, created_datetime, CAST(IFNULL(parent, post_uuid) AS VARCHAR(500)) as path
+    FROM comments
+    WHERE parent IS NULL AND post_uuid = '9fb2a1ed-fc46-11ec-9f76-02001700871b'
+  UNION ALL
+  SELECT c.uuid, c.message, c.user_uuid, c.created_datetime, CONCAT(ct.path, ' -> ',c.parent)
+    FROM comments_tree AS ct JOIN comments AS c
+      ON ct.uuid = c.parent
+)
+SELECT * FROM comments_tree
+ORDER BY path;]]></string>
 		</script>
 	</layout>
 </project>
